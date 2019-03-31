@@ -18,7 +18,7 @@ namespace ProjectEuler.Problems
 		public void Start()
 		{
 			Console.Write($"{this.GetType().Name} Start ");
-			Task.Factory.StartNew(StartAnimationWaiting,TaskCreationOptions.AttachedToParent);
+			Task.Factory.StartNew(StartAnimationWaiting, TaskCreationOptions.AttachedToParent);
 			ShowResult += ResultHandler;
 			_stopwatch.Start();
 

@@ -1,22 +1,28 @@
+using System;
+
 namespace ProjectEuler
 {
-	using Problems;
-
 	class Program
 	{
 		static void Main(string[] args)
 		{
-			new Problem1().Start();
-			new Problem2().Start();
-			new Problem3().Start();
-			new Problem4().Start();
-			new Problem5().Start();
-			new Problem6().Start();
-			new Problem7().Start();
-			new Problem8().Start();
-			new Problem9().Start();
-			new Problem10().Start();
-			new Problem11().Start();
+			Console.WriteLine("Какую прблему тебе решить?");
+			var suffix = Console.ReadLine();
+			var problem = Type.GetType("ProjectEuler.Problems.Problem" + suffix, false, true);
+			if (problem != null)
+			{
+				var ctor = problem.GetConstructor(new Type[] { });
+				var problemObj = ctor?.Invoke(new object[] { });
+				var start = problemObj?.GetType().GetMethod("Start");
+				start?.Invoke(problemObj, null);
+				Console.Clear();
+				Main(null);
+			}
+			else
+			{
+				Console.WriteLine("Нет такой.");
+				Main(null);
+			}
 		}
 	}
 }

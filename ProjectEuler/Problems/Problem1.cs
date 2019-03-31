@@ -1,5 +1,3 @@
-using System;
-
 namespace ProjectEuler.Problems
 {
 	class Problem1 : BaseProblem

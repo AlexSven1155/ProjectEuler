@@ -28,7 +28,7 @@ namespace ProjectEuler.Problems
 										71636269561882670428252483600823257530420752963450";
 
 		private int searchRegion = 13;
-		private Dictionary<int, Result> resultArray = new Dictionary<int, Result>();
+		private List<Result> resultArray = new List<Result>();
 
 		private class Result : IComparable<Result>
 		{
@@ -70,14 +70,11 @@ namespace ProjectEuler.Problems
 					}
 				}
 
-				resultArray.Add(i, result);
+				resultArray.Add(result);
 			}
 
-			var resultRegion = (from rez in resultArray
-								where rez.Value == resultArray.Values.Max()
-								select rez).FirstOrDefault();
-
-			OnShowResult($"\n>>Цифры: {resultRegion.Value.SearchValue}\n>>Произведение: {resultRegion.Value.MultiplicationResult}");
+			var resultRegion = resultArray.Max();
+			OnShowResult($"\n>>Цифры: {resultRegion.SearchValue}\n>>Произведение: {resultRegion.MultiplicationResult}");
 		}
 	}
 }
