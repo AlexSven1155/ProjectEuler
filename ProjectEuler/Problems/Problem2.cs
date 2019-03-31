@@ -1,5 +1,3 @@
-using System;
-
 namespace ProjectEuler.Problems
 {
 	class Problem2 : BaseProblem
@@ -30,8 +28,7 @@ namespace ProjectEuler.Problems
 				first = second;
 				second = newNumber;
 			}
-
-			Console.WriteLine($"Результат: {result}");
+			OnShowResult(result.ToString());
 		}
 	}
 }

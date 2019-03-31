@@ -26,8 +26,7 @@ namespace ProjectEuler.Problems
 					}
 				}
 			}
-
-			Console.WriteLine($"Результат: {resultList.Max()}");
+			OnShowResult(resultList.Max().ToString());
 		}
 	}
 }

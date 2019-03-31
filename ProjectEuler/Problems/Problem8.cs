@@ -77,8 +77,7 @@ namespace ProjectEuler.Problems
 								where rez.Value == resultArray.Values.Max()
 								select rez).FirstOrDefault();
 
-			Console.WriteLine($"Цифры: {resultRegion.Value.SearchValue}");
-			Console.WriteLine($"Произведение: { resultRegion.Value.MultiplicationResult}");
+			OnShowResult($"\n>>Цифры: {resultRegion.Value.SearchValue}\n>>Произведение: {resultRegion.Value.MultiplicationResult}");
 		}
 	}
 }

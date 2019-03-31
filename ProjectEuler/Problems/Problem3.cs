@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,7 +6,7 @@ namespace ProjectEuler.Problems
 	class Problem3 : BaseProblem
 	{
 		private long _number = 600851475143;
-		
+
 		public override void Go()
 		{
 			var listResult = new List<long>();
@@ -30,8 +29,7 @@ namespace ProjectEuler.Problems
 					break;
 				}
 			}
-
-			Console.WriteLine($"Результат: {listResult.Max()}");
+			OnShowResult(listResult.Max().ToString());
 		}
 	}
 }
