@@ -1,0 +1,16 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ProjectEuler.Problems
+{
+	class Problem5 : BaseProblem
+	{
+		public override void Go()
+		{
+			throw new NotImplementedException();
+		}
+	}
+}
