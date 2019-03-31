@@ -8,6 +8,20 @@ namespace ProjectEuler.Problems
 	class Problem11 : BaseProblem
 	{
 		private int _calculateRange = 4;
+		private string _fileExamplePath = "F:\\problem11.txt";
+
+		private class Result : IComparable<Result>
+		{
+			public string NumbersValue;
+			public long MultiplicationResult;
+
+			public int CompareTo(Result other)
+			{
+				if (ReferenceEquals(this, other)) return 0;
+				if (ReferenceEquals(null, other)) return 1;
+				return MultiplicationResult.CompareTo(other.MultiplicationResult);
+			}
+		}
 
 		/// <summary>
 		/// Стандарный мссив.
@@ -16,7 +30,7 @@ namespace ProjectEuler.Problems
 		{
 			get
 			{
-				var array = File.ReadAllLines("F:\\problem11.txt");
+				var array = File.ReadAllLines(_fileExamplePath);
 				var result = new List<List<int>>();
 				for (var i = 0; i < 20; i++)
 				{
@@ -33,7 +47,7 @@ namespace ProjectEuler.Problems
 		{
 			get
 			{
-				var array = File.ReadAllLines("F:\\problem11.txt");
+				var array = File.ReadAllLines(_fileExamplePath);
 				var transposeArray = new List<string[]>();
 				var result = new List<List<int>>();
 				for (var i = 0; i < 20; i++)
@@ -61,7 +75,7 @@ namespace ProjectEuler.Problems
 		{
 			get
 			{
-				var array = File.ReadAllLines("F:\\problem11.txt");
+				var array = File.ReadAllLines(_fileExamplePath);
 				var result = new List<List<int>>();
 				for (var i = 0; i < 20; i++)
 				{
@@ -73,17 +87,49 @@ namespace ProjectEuler.Problems
 
 		protected override void Go()
 		{
-			var resultList = new List<int>();
+			var resultList = new List<Result>();
+
 			// идём по строкам
 			foreach (var row in _exampleArray)
 			{
-				resultList.Add(CalculateRow(row).Max());
+				for (int i = 0; i < 20; i += _calculateRange)
+				{
+					var resultHorizontal = new Result()
+					{
+						MultiplicationResult = 1,
+						NumbersValue = ""
+					};
+
+					for (int j = 0; j < _calculateRange; j++)
+					{
+						resultHorizontal.NumbersValue += row[i + j] + ", ";
+						resultHorizontal.MultiplicationResult *= row[i + j];
+					}
+					resultHorizontal.NumbersValue += " horizontal";
+					resultList.Add(resultHorizontal);
+				}
 			}
 
 			// идём по колонкам
 			foreach (var row in _transposeExampleArray)
 			{
-				resultList.Add(CalculateRow(row).Max());
+				for (int i = 0; i < 20; i += _calculateRange)
+				{
+					var resultVertical = new Result()
+					{
+						MultiplicationResult = 1,
+						NumbersValue = ""
+					};
+
+					for (int j = 0; j < _calculateRange; j++)
+					{
+						resultVertical.NumbersValue += row[i + j] + ", ";
+						resultVertical.MultiplicationResult *= row[i + j];
+					}
+
+					resultVertical.NumbersValue += " vertical";
+					resultList.Add(resultVertical);
+				}
 			}
 
 			// идём по диагонали слева направо
@@ -91,11 +137,19 @@ namespace ProjectEuler.Problems
 			{
 				for (int j = 16; j >= 0; j--)
 				{
-					var resultDiagonal = 1;
+					var resultDiagonal = new Result()
+					{
+						MultiplicationResult = 1,
+						NumbersValue = ""
+					};
+
 					for (int i = 0; i < _calculateRange; i++)
 					{
-						resultDiagonal *= _exampleArray[j + i][i + q];
+						resultDiagonal.NumbersValue += _exampleArray[j + i][i + q] + ", ";
+						resultDiagonal.MultiplicationResult *= _exampleArray[j + i][i + q];
 					}
+
+					resultDiagonal.NumbersValue += " diagonal left to right";
 					resultList.Add(resultDiagonal);
 				}
 			}
@@ -105,29 +159,25 @@ namespace ProjectEuler.Problems
 			{
 				for (int j = 16; j >= 0; j--)
 				{
-					var resultDiagonal = 1;
+					var resultDiagonal = new Result()
+					{
+						MultiplicationResult = 1,
+						NumbersValue = ""
+					};
+
 					for (int i = 0; i < _calculateRange; i++)
 					{
-						resultDiagonal *= _reflectedExampleArray[j + i][i + q];
+						resultDiagonal.NumbersValue += _reflectedExampleArray[j + i][i + q] + ", ";
+						resultDiagonal.MultiplicationResult *= _reflectedExampleArray[j + i][i + q];
 					}
+					resultDiagonal.NumbersValue += " diagonal right to left";
 					resultList.Add(resultDiagonal);
 				}
 			}
 
-			OnShowResult(resultList.Max().ToString());
-		}
+			var result = resultList.Max();
 
-		private IEnumerable<int> CalculateRow(List<int> locations)
-		{
-			for (var i = 0; i < locations.Count; i += _calculateRange)
-			{
-				var result = 0;
-				for (var j = 0; j < _calculateRange; j++)
-				{
-					result *= locations[i];
-				}
-				yield return result;
-			}
+			OnShowResult($"\nЧисла: {result.NumbersValue} ; Результат уножения: {result.MultiplicationResult}");
 		}
 	}
 }
