@@ -6,7 +6,7 @@ namespace ProjectEuler.Problems
 {
 	class Problem4 : BaseProblem
 	{
-		public override void Go()
+		protected override void Go()
 		{
 			var resultList = new List<long>();
 			for (var a = 100; a < 999; a++)

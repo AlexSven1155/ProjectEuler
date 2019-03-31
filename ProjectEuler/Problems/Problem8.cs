@@ -43,7 +43,7 @@ namespace ProjectEuler.Problems
 			}
 		}
 
-		public override void Go()
+		protected override void Go()
 		{
 			value = value.Trim();
 			value = value.Replace("\n", "");

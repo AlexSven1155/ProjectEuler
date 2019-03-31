@@ -61,6 +61,6 @@ namespace ProjectEuler.Problems
 			ShowResult?.Invoke(value);
 		}
 
-		public abstract void Go();
+		protected abstract void Go();
 	}
 }
