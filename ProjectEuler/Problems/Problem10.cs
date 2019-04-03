@@ -14,7 +14,6 @@ namespace ProjectEuler.Problems
 					result += i;
 				}
 			}
-
 			OnShowResult(result.ToString());
 		}
 

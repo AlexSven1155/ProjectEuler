@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace ProjectEuler.Problems
 {
-	public abstract class BaseProblem
+	public abstract class BaseProblem : IDisposable
 	{
-		private Stopwatch _stopwatch = new Stopwatch();
+		private readonly Stopwatch _stopwatch = new Stopwatch();
 
-		protected bool _isAnimationWorking = true;
+		protected bool IsAnimationWorking = true;
 
 		protected delegate void ResultDelegate(string value, bool stopWatch);
 
@@ -19,7 +19,7 @@ namespace ProjectEuler.Problems
 
 		public void Start()
 		{
-			Console.Write($"{this.GetType().Name} Start ");
+			Console.Write($"{GetType().Name} Start ");
 			Task.Factory.StartNew(StartAnimationWaiting, TaskCreationOptions.AttachedToParent);
 			ShowResult += ResultHandler;
 			_stopwatch.Start();
@@ -37,7 +37,8 @@ namespace ProjectEuler.Problems
 			{
 				_stopwatch.Stop();
 			}
-			Console.WriteLine($"Время выполнения: {_stopwatch.Elapsed.Seconds} с {_stopwatch.Elapsed.Milliseconds / 10} мс");
+
+			Console.WriteLine($"Время выполнения: {_stopwatch.Elapsed.Seconds} с {_stopwatch.Elapsed.Milliseconds} мс {_stopwatch.Elapsed.Ticks} ticks");
 			Console.ReadLine();
 		}
 
@@ -45,7 +46,7 @@ namespace ProjectEuler.Problems
 		{
 			var counter = 1;
 			Console.CursorVisible = false;
-			while (_isAnimationWorking)
+			while (IsAnimationWorking)
 			{
 				counter++;
 				switch (counter % 4)
@@ -67,7 +68,7 @@ namespace ProjectEuler.Problems
 			{
 				_stopwatch.Stop();
 			}
-			_isAnimationWorking = false;
+			IsAnimationWorking = false;
 			Console.WriteLine();
 			Console.WriteLine($"Результат: {value}");
 		}
@@ -78,6 +79,8 @@ namespace ProjectEuler.Problems
 		}
 
 		protected abstract void Begin();
+
+		public virtual void Dispose() { }
 
 		#region PLUHI
 

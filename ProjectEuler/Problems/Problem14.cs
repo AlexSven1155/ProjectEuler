@@ -49,7 +49,6 @@ namespace ProjectEuler.Problems
 			}
 
 			var result = chainLengthList.Max();
-
 			OnShowResult($"Длинна цепочки: {result.ChainLength} ; Стартовое число: {result.CurrentNumber}");
 		}
 	}
