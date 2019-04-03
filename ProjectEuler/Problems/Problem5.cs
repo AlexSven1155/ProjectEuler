@@ -4,7 +4,7 @@ namespace ProjectEuler.Problems
 	{
 		private int maxDivisor = 20;
 
-		protected override void Go()
+		protected override void Begin()
 		{
 			long result = 1;
 

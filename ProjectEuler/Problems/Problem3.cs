@@ -7,7 +7,7 @@ namespace ProjectEuler.Problems
 	{
 		private long _number = 600851475143;
 
-		protected override void Go()
+		protected override void Begin()
 		{
 			var listResult = new List<long>();
 			long divisor = 2;

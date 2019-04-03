@@ -85,7 +85,7 @@ namespace ProjectEuler.Problems
 			}
 		}
 
-		protected override void Go()
+		protected override void Begin()
 		{
 			var resultList = new List<Result>();
 

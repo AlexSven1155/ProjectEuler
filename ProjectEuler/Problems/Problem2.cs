@@ -4,7 +4,7 @@ namespace ProjectEuler.Problems
 	{
 		private int maxRegion = 4000000;
 
-		protected override void Go()
+		protected override void Begin()
 		{
 			float first = 1;
 			float second = 2;

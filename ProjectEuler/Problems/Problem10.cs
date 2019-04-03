@@ -4,7 +4,7 @@ namespace ProjectEuler.Problems
 	{
 		private long TargetPrimeNumber = 2000000;
 
-		protected override void Go()
+		protected override void Begin()
 		{
 			long result = 0;
 			for (long i = 2; i < TargetPrimeNumber; i++)

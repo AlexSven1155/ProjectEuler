@@ -4,7 +4,7 @@ namespace ProjectEuler.Problems
 	{
 		private int maxNumber = 1000;
 
-		protected override void Go()
+		protected override void Begin()
 		{
 			long result = 0;
 			for (int i = 0; i < maxNumber; i++)

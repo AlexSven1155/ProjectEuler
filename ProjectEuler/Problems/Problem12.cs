@@ -4,16 +4,16 @@ namespace ProjectEuler.Problems
 	{
 		private int numberDivisors = 500;
 
-		protected override void Go()
+		protected override void Begin()
 		{
-			long k = 1;
-			long resultNumber = 0;
+			long k = 1000;
 			while (true)
 			{
-				resultNumber += k;
+				var resultNumber = k * (k + 1) / 2;
 				k++;
-
-				if (GetNumberDivisors(resultNumber) > numberDivisors)
+				var q = GetNumberDivisors(resultNumber);
+				OnShowResult($"resultNumber: {resultNumber} ; GetNumberDivisors {q}");
+				if (q > numberDivisors)
 				{
 					OnShowResult(resultNumber.ToString());
 					break;
@@ -23,10 +23,16 @@ namespace ProjectEuler.Problems
 
 		private int GetNumberDivisors(long value)
 		{
-			var result = 0;
-			for (long i = 1; i <= value; i++)
+			int result = 0;
+			var primeList = GetPrimeDivisors(value);
+			primeList.Add(value);
+			primeList.Add(1);
+			result += primeList.Count;
+
+			foreach (var primeDivisor in primeList)
 			{
-				if (value % i == 0)
+				var divisor = value / primeDivisor;
+				if (!primeList.Contains(divisor))
 				{
 					result++;
 				}

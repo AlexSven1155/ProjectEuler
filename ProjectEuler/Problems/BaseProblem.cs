@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,7 +13,7 @@ namespace ProjectEuler.Problems
 
 		protected bool _isAnimationWorking = true;
 
-		protected delegate void ResultDelegate(string value);
+		protected delegate void ResultDelegate(string value, bool stopWatch);
 
 		protected event ResultDelegate ShowResult;
 
@@ -22,9 +24,19 @@ namespace ProjectEuler.Problems
 			ShowResult += ResultHandler;
 			_stopwatch.Start();
 
-			Go();
+			try
+			{
+				Begin();
+			}
+			catch (Exception e)
+			{
+				OnShowResult(e.Message + "\n" + e.StackTrace);
+			}
 
-			_stopwatch.Stop();
+			if (_stopwatch.IsRunning)
+			{
+				_stopwatch.Stop();
+			}
 			Console.WriteLine($"Время выполнения: {_stopwatch.Elapsed.Seconds} с {_stopwatch.Elapsed.Milliseconds / 10} мс");
 			Console.ReadLine();
 		}
@@ -49,18 +61,76 @@ namespace ProjectEuler.Problems
 			Console.CursorVisible = true;
 		}
 
-		protected void ResultHandler(string value)
+		protected void ResultHandler(string value, bool stopWatch = false)
 		{
+			if (stopWatch)
+			{
+				_stopwatch.Stop();
+			}
 			_isAnimationWorking = false;
 			Console.WriteLine();
 			Console.WriteLine($"Результат: {value}");
 		}
 
-		protected virtual void OnShowResult(string value)
+		protected virtual void OnShowResult(string value, bool stopWatch = false)
 		{
-			ShowResult?.Invoke(value);
+			ShowResult?.Invoke(value, stopWatch);
 		}
 
-		protected abstract void Go();
+		protected abstract void Begin();
+
+		#region PLUHI
+
+		/// <summary>
+		/// Решето Эратосфена.
+		/// Возвращает массив простых делителей указанного числа.
+		/// </summary>
+		public List<long> GetPrimeDivisors(long targetNumber)
+		{
+			var arrayNumbers = new List<long>();
+			var excludeNumbers = new List<long>();
+			for (int i = 1; i <= targetNumber; i++)
+			{
+				arrayNumbers.Add(i);
+			}
+
+			var koef = Math.Round(Math.Sqrt(targetNumber), 0);
+
+			for (var i = 1; i < koef; i++)
+			{
+				int check = 0;
+				for (int j = 1; j <= i; j++)
+				{
+					if (i % j == 0)
+					{
+						check++;
+					}
+
+					if (check > 2)
+					{
+						break;
+					}
+				}
+
+				if (check == 2)
+				{
+					excludeNumbers.Add(i);
+				}
+			}
+
+			foreach (var excludeNumber in excludeNumbers)
+			{
+				var firstIndex = (int)(excludeNumber * excludeNumber) - 1;
+				arrayNumbers[firstIndex] = 0;
+				for (long i = firstIndex; i < targetNumber; i += excludeNumber)
+				{
+					arrayNumbers[(int)i] = 0;
+				}
+			}
+
+			return arrayNumbers.Where(e => e > 0 && e != 1 && targetNumber % e == 0 && e != targetNumber).ToList();
+		}
+
+		#endregion
 	}
 }

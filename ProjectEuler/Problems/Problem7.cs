@@ -7,7 +7,7 @@ namespace ProjectEuler.Problems
 	{
 		private long TargetPrimeNumber = 10001;
 
-		protected override void Go()
+		protected override void Begin()
 		{
 			var listPrimeNumbers = new List<long>();
 			for (long i = 2; i < long.MaxValue; i++)

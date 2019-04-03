@@ -3,7 +3,7 @@ namespace ProjectEuler.Problems
 	class Problem6 : BaseProblem
 	{
 		private long numberRange = 100;
-		protected override void Go()
+		protected override void Begin()
 		{
 			long sumSquares = 0;
 			long squareSum = 0;

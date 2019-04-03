@@ -6,7 +6,7 @@ namespace ProjectEuler.Problems
 	{
 		private long TargetValue = 1000;
 
-		protected override void Go()
+		protected override void Begin()
 		{
 			long result = 0;
 			long a = 0;
