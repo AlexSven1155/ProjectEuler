@@ -2,43 +2,26 @@ namespace ProjectEuler.Problems
 {
 	class Problem12 : BaseProblem
 	{
-		private int numberDivisors = 500;
+		private int _numberDivisors = 500;
+		private bool _try = true;
 
 		protected override void Begin()
 		{
-			long k = 1000;
-			while (true)
+			long k = 1;
+			while (_try)
 			{
-				var resultNumber = k * (k + 1) / 2;
+				CheckAnswer(GetDivisorsCount(k * (k + 1) / 2), k * (k + 1) / 2);
 				k++;
-				var q = GetNumberDivisors(resultNumber);
-				OnShowResult($"resultNumber: {resultNumber} ; GetNumberDivisors {q}");
-				if (q > numberDivisors)
-				{
-					OnShowResult(resultNumber.ToString());
-					break;
-				}
 			}
 		}
 
-		private int GetNumberDivisors(long value)
+		private void CheckAnswer(long value, long result)
 		{
-			int result = 0;
-			var primeList = GetPrimeDivisors(value);
-			primeList.Add(value);
-			primeList.Add(1);
-			result += primeList.Count;
-
-			foreach (var primeDivisor in primeList)
+			if (value >= _numberDivisors)
 			{
-				var divisor = value / primeDivisor;
-				if (!primeList.Contains(divisor))
-				{
-					result++;
-				}
+				_try = false;
+				OnShowResult($"resultNumber: {result} ; GetNumberDivisors {value}");
 			}
-
-			return result;
 		}
 	}
 }

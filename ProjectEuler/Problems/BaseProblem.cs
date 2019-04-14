@@ -17,6 +17,20 @@ namespace ProjectEuler.Problems
 
 		protected event ResultDelegate ShowResult;
 
+		/// <summary>
+		/// Массив простых чисел до 199.
+		/// </summary>
+		protected readonly int[] SimpleDividers =
+		{
+			2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
+
+			47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101,
+
+			103, 107, 109, 113, 127, 131, 137, 139, 149, 151,
+
+			157, 163, 167, 173, 179, 181, 191, 193, 197, 199
+		};
+
 		public void Start()
 		{
 			Console.Write($"{GetType().Name} Start ");
@@ -85,53 +99,51 @@ namespace ProjectEuler.Problems
 		#region PLUHI
 
 		/// <summary>
-		/// Решето Эратосфена.
-		/// Возвращает массив простых делителей указанного числа.
+		/// Возвращает количество множителей указанного числа.
 		/// </summary>
-		public List<long> GetPrimeDivisors(long targetNumber)
+		/// <param name="value">Число.</param>
+		/// <returns>Количество множителей.</returns>
+		public long GetDivisorsCount(long value)
 		{
-			var arrayNumbers = new List<long>();
-			var excludeNumbers = new List<long>();
-			for (int i = 1; i <= targetNumber; i++)
+			if (value == 0) { return 0; }
+			if (value == 1) { return 1; }
+			if (value == 2) { return 2; }
+
+			var result = 1;
+			var primeGroupList = GetPrimeDivisors(value).GroupBy(e => e);
+
+			foreach (var group in primeGroupList)
 			{
-				arrayNumbers.Add(i);
+				result *= group.Count() + 1;
 			}
 
-			var koef = Math.Round(Math.Sqrt(targetNumber), 0);
+			return result;
+		}
 
-			for (var i = 1; i < koef; i++)
+		/// <summary>
+		/// Возвращает каноническое разложение на множители указанного числа.
+		/// </summary>
+		/// <returns></returns>
+		public List<long> GetPrimeDivisors(long value)
+		{
+			var result = new List<long>();
+			foreach (var divider in SimpleDividers)
 			{
-				int check = 0;
-				for (int j = 1; j <= i; j++)
+				if (value == 1) { break; }
+
+				void Calculate()
 				{
-					if (i % j == 0)
+					if (value % divider == 0)
 					{
-						check++;
-					}
-
-					if (check > 2)
-					{
-						break;
+						result.Add(divider);
+						value /= divider;
+						Calculate();
 					}
 				}
 
-				if (check == 2)
-				{
-					excludeNumbers.Add(i);
-				}
+				Calculate();
 			}
-
-			foreach (var excludeNumber in excludeNumbers)
-			{
-				var firstIndex = (int)(excludeNumber * excludeNumber) - 1;
-				arrayNumbers[firstIndex] = 0;
-				for (long i = firstIndex; i < targetNumber; i += excludeNumber)
-				{
-					arrayNumbers[(int)i] = 0;
-				}
-			}
-
-			return arrayNumbers.Where(e => e > 0 && e != 1 && targetNumber % e == 0 && e != targetNumber).ToList();
+			return result;
 		}
 
 		#endregion
