@@ -20,7 +20,7 @@ namespace ProjectEuler.Problems
 			if (value >= _numberDivisors)
 			{
 				_try = false;
-				OnShowResult($"resultNumber: {result} ; GetNumberDivisors {value}");
+				OnShowResult($"Треугольное число: {result} ; количество делителей: {value}");
 			}
 		}
 	}
